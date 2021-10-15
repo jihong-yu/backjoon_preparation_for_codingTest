@@ -37,7 +37,7 @@ def find(x, y):
                 next_y = y + tetromino[i][j][1]  # 인자의 y좌표만큼 테트로미노의 y 좌표를 옮겨준다.
                 result += board[next_x][next_y]  # 입력받은 좌표의 테트로미노 좌표에 있는 숫자들을 계속더해준다.
             except IndexError:  # indexError가발생하면
-                pass
+                break
         answer = max(answer, result)  # result값의 최댓값을 계속해서 저장
 
 
