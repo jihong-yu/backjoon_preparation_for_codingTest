@@ -1,48 +1,41 @@
-n = int(input())
-array = [list(input()) for i in range(n)]
-maxCount = 0 #사탕의 최대 개수
+n, m = map(int, input().split())
 
-def countFunc():
-    global maxCount
+board = [list(map(int, input().split())) for _ in range(n)]
+answer = 0
 
-    for i in range(n):
-        countRow = 1
-        countColumn = 1
-        for j in range(n-1):
-            #행 처리
-            if array[i][j] == array[i][j - 1]:
-                countRow += 1
-            else:
-                if maxCount < countRow:
-                    maxCount = countRow
-                countRow = 1
+tetromino = [
+    [(0, 0), (0, 1), (1, 0), (1, 1)],  # ㅁ
+    [(0, 0), (0, 1), (0, 2), (0, 3)],  # ㅡ
+    [(0, 0), (1, 0), (2, 0), (3, 0)],  # ㅣ
+    [(0, 0), (0, 1), (0, 2), (1, 0)],
+    [(1, 0), (1, 1), (1, 2), (0, 2)],
+    [(0, 0), (1, 0), (1, 1), (1, 2)],  # ㄴ
+    [(0, 0), (0, 1), (0, 2), (1, 2)],  # ㄱ
+    [(0, 0), (1, 0), (2, 0), (2, 1)],
+    [(2, 0), (2, 1), (1, 1), (0, 1)],
+    [(0, 0), (0, 1), (1, 0), (2, 0)],
+    [(0, 0), (0, 1), (1, 1), (2, 1)],
+    [(0, 0), (0, 1), (0, 2), (1, 1)],  # ㅜ
+    [(1, 0), (1, 1), (1, 2), (0, 1)],  # ㅗ
+    [(0, 0), (1, 0), (2, 0), (1, 1)],  # ㅏ
+    [(1, 0), (0, 1), (1, 1), (2, 1)],  # ㅓ
+    [(1, 0), (2, 0), (0, 1), (1, 1)],
+    [(0, 0), (1, 0), (1, 1), (2, 1)],
+    [(1, 0), (0, 1), (1, 1), (0, 2)],
+    [(0, 0), (0, 1), (1, 1), (1, 2)]
+]
 
-            #열 처리
-            if array[j][i] == array[j + 1][i]:
-                countColumn += 1
-            else:
-                if maxCount < countColumn:
-                    maxCount = countColumn
-                countColumn = 1
-
-        if maxCount < countColumn:
-            maxCount = countColumn
-
-        if maxCount < countRow:
-            maxCount = countRow
-
-#행처리
-for i in range(n):
-    for j in range(1, n):
-        array[i][j], array[i][j - 1] = array[i][j - 1], array[i][j]  # 사탕 교환
-        countFunc()
-        array[i][j], array[i][j - 1] = array[i][j - 1], array[i][j]  # 교환한 것을 원래대로
-        
-#열처리
-for i in range(n):
-    for j in range(1, n):
-        array[j][i], array[j - 1][i] = array[j - 1][i], array[j][i]  # 사탕 교환
-        countFunc()
-        array[j][i], array[j - 1][i] = array[j - 1][i], array[j][i]  # 교환한 것을 원래대로
-
-print(maxCount)
+def find(x, y):
+    global answer
+    for i in range(len(tetromino)):
+        result = 0
+        for j in range(len(tetromino[i])):
+            try:
+                next_x = x + tetromino[i][j][0]  # x 좌표
+                next_y = y + tetromino[i][j][1]  # y 좌표
+                result += board[next_x][next_y]
+            except IndexError as e:
+                continue
+        answer = max(answer, result)
+find(0,0)
+print(answer)
