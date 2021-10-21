@@ -1,26 +1,36 @@
-L, C = map(int, input().split())
-alphabet = list(map(str, input().split()))
-alphabet.sort()  # 알파벳 오름차순 정렬
-out = []
-vowel = ['a', 'e', 'i', 'o', 'u']  # 모음 세팅
+import sys
+
+sys.setrecursionlimit(100001)
+input = sys.stdin.readline
+
+N = int(input())
+array = []
+for _ in range(N):
+    array.append(list(map(int, input().split())))
+visited = [False for _ in range(N)]
+ans = int(1e9)
 
 
-def solve(depth, idx):
-    if depth == L:
-        vo = 0  # 모음 개수
-        co = 0  # 자음 개수
-        for i in range(len(out)):
-            if out[i] in vowel:  # 출력할 알파벳에 모음이 있는지 없는지 체크
-                vo += 1  # 모음이 있으면 +1
-            else:  # 모음이 아니라면
-                co += 1  # 자음에 +1
-        if vo >= 1 and co >= 2:  # 모음이 1개 이상이고 자음이 2개 이상이라면
-            print(''.join(out))  # 출력
-        return
-    for i in range(idx, C):
-        out.append(alphabet[i])  # 출력 리스트에 추가
-        solve(depth + 1, i + 1)  # 재귀를 돈다
-        out.pop()  # 출력 함수에서 제거
+def dfs(depth, idx):
+    global ans
+    if depth == N // 2:
+        start, link = 0, 0
+
+        for i in range(N):
+            for j in range(N):
+                if visited[i] and visited[j]:
+                    start += array[i][j]
+                elif not visited[i] and not visited[j]:
+                    link += array[i][j]
+        print(start, link)
+        ans = min(ans, abs(start - link))
+
+    for i in range(idx, N):
+        if not visited[i]:
+            visited[i] = True
+            dfs(depth + 1, i + 1)
+            visited[i] = False
 
 
-solve(0, 0)
+dfs(0, 0)
+print(ans)
