@@ -3,7 +3,6 @@ import sys
 
 sys.setrecursionlimit(100001)
 N = int(input())
-out = []
 
 input_array = list(map(int, input().split()))
 result = 0  # 각 리스트 원소의 차의 최대값을 저장할 result
@@ -21,13 +20,14 @@ def result_solve(array):  # 리스트의 차를 구하는 공식
 
 
 def all_permutations_solve(def_array):
+    global result
 
-    result_solve(def_array)
-    if def_array in out:
-        return
-    if def_array == result_array:
-        return
-    out.append([x for x in def_array])
+    result_solve(def_array) #리스트의 차를 구하는 공식에 모든 순열을 순차적으로 대입
+    # 리스트 출력
+    if def_array == result_array:  # 만약 재귀를 돌면서 나온 순열이 나올 수 있는 모든순열의 마지막 순열이라면
+        print(result)  # result값출력
+        exit()  # 코드 종료
+
     for i in range(N - 1, 0, -1):  # 마지막 항부터 돈다
         if def_array[i - 1] < def_array[i]:  # 만약 앞 열의 값이 그 뒷열의 값보다 작다면
             for j in range(N - 1, 0, -1):  # 다시 그 앞 열의 값을 맨 뒷열부터 비교
@@ -38,5 +38,3 @@ def all_permutations_solve(def_array):
 
 
 all_permutations_solve(input_array)
-
-print(result)
