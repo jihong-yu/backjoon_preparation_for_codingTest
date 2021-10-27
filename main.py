@@ -1,28 +1,50 @@
-import sys
+import itertools
 
-N = int(input())
-travel_cost = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
+N, M = map(int, input().split())
+input_array = []
+result = 0
 
-min_value = sys.maxsize
+for _ in range(N):
+    input_array.append(list(map(int, input())))
+
+bitmask = itertools.product([0, 1], repeat=N * M)
 
 
-def dfs(start, next, value, visited):
-    global min_value
+# 비트마스크를 N*M 행렬로 변환
+def bitmask_converter(array):
+    return [array[i:i + M] for i in range(0, len(array), M)]
 
-    if len(visited) == N:
-        if travel_cost[next][start] != 0:
-            min_value = min(min_value, value + travel_cost[next][start])
-        return
 
+for a in bitmask:
+    # 비트마스크를 N*M 행렬로 변환
+    bitmask_covert_array = bitmask_converter(a)
+
+    # 가로합 저장
+    sum_width = 0
+
+    # 가로 계산
     for i in range(N):
-        if travel_cost[next][i] != 0 and i != start and i not in visited and value < min_value:
-            visited.append(i)
-            dfs(start, i, value + travel_cost[next][i], visited)
-            visited.pop()
+        temp_width = 0
+        for j in range(M):
+            if bitmask_covert_array[i][j] == 0:
+                temp_width = temp_width * 10 + input_array[i][j]
+            if bitmask_covert_array[i][j] == 1 or j == M - 1:
+                sum_width += temp_width
+                temp_width = 0
 
+    # 세로합 저장
+    sum_height = 0
 
-# 각 번호에서 시작
-for i in range(N):
-    dfs(i, i, 0, [i])
+    # 세로 계산
+    for i in range(M):
+        temp_height = 0
+        for j in range(N):
+            if bitmask_covert_array[j][i] == 1:
+                temp_height = temp_height * 10 + input_array[j][i]
+            if bitmask_covert_array[j][i] == 0 or j == N - 1:
+                sum_height += temp_height
+                temp_height = 0
 
-print(min_value)
+    result = max(result, sum_height + sum_width)
+
+print(result)
