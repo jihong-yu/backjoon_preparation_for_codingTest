@@ -1,9 +1,26 @@
-n = int(input())
+import sys
 
-dp = [0, 1, 2]
-if n > 2:
-    for i in range(3, n + 1):
-        dp.append(i)
-        dp[i] = dp[i - 1] + dp[i - 2]
+sys.setrecursionlimit(100001)
 
-print(dp[n] % 10007)
+def solve(n):
+    global cnt
+
+    for i in arr:
+        res.append(i)
+        print(res)
+        if sum(res) == n:
+            cnt += 1
+            res.pop()
+            return
+        solve(n)
+        res.pop()
+
+
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    cnt = 0
+    res = []
+    arr = [1, 2, 3]
+    solve(n)
+    print(cnt)
