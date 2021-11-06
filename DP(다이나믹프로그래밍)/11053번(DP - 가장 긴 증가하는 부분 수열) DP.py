@@ -8,6 +8,4 @@ for i in range(N):  # 배열 길이만큼돈다.
             dp[i] = max(dp[i], dp[j] + 1)
             # 전 원소에 저장되어 있는 최장수열길이에서 +1 값과 저장되어있는 수열길이값을 비교해서 큰값을 대입
 
-print(input_array)
-print(dp)
 print(max(dp))  # 최장수열길이 출력
