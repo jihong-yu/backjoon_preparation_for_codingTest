@@ -1,34 +1,46 @@
-### bfs
-import collections
 import sys
+from collections import deque
 
-sys.setrecursionlimit(10 ** 6)
-input = sys.stdin.readline
+sys.setrecursionlimit(1000000)
+N = int(input())
 
-for _ in range(int(input())):
-    V, E = map(int, input().split())
-    graph = [[] for _ in range(V + 1)]  # 빈 그래프 생성
-    visited = [False] * (V + 1)  # 방문한 정점 체크
+graph = []
+result = []
+count = 0
 
-    for _ in range(E):
-        a, b = map(int, input().split())
-        graph[a].append(b)  # 무방향 그래프
-        graph[b].append(a)  # 무방향 그래프
+dx = [0, 0, -1, 1]
+dy = [1, -1, 0, 0]
 
-    q = collections.deque()
-    group = 1
-    result = True
-    for i in range(1, V + 1):
-        if not visited[i]:  # 방문하지 않은 정점이면 bfs 수행
-            q.append(i)
-            visited[i] = group
-            while q:
-                v = q.popleft()
-                for w in graph[v]:
-                    if not visited[w]:  # 방문하지 않은 정점이면 큐에 삽입
-                        q.append(w)
-                        visited[w] = -1 * visited[v]  # 현재 노드와 다른 그룹 지정
-                    elif visited[v] == visited[w]:  # 이미 방문한 경우, 동일한 그룹에 속하면 False
-                        result = False
+for _ in range(N):
+    graph.append(list(map(int, input())))
 
-    print('YES' if result else 'NO')
+
+def dfs(x, y):
+    global count
+
+    if x >= N or y >= N or x < 0 or y < 0:
+        return
+
+    if graph[x][y] == 1:
+        count += 1
+        graph[x][y] = 0
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            dfs(nx, ny)
+
+
+for i in range(N):
+    for j in range(N):
+        if graph[i][j] == 1:
+            dfs(i, j)
+            result.append(count)
+            count = 0
+
+result.sort()
+
+print(len(result))
+for k in result:
+    print(k)
