@@ -16,7 +16,7 @@ dx = [0, 0, 1, -1]
 dy = [1, -1, 0, 0]
 
 
-def bfs(graph, a, b):
+def bfs(a, b):
     queue = deque()  # 큐 선언
     queue.append([a, b])  # a ,b 를 큐에서 그대로 빼기 위해 append로 추가를 해준다.
     graph[a][b] = 0  # 첫번째 집 a,b를 방문 처리해준다.
@@ -45,7 +45,7 @@ def bfs(graph, a, b):
 for i in range(N):
     for j in range(N):
         if graph[i][j] == 1:
-            count = bfs(graph, i, j)
+            count = bfs(i, j)
             result.append(count)
 
 result.sort()  # 오름차순으로 정렬

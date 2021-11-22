@@ -1,46 +1,13 @@
 import sys
 from collections import deque
 
-sys.setrecursionlimit(1000000)
-N = int(input())
 
 graph = []
-result = []
-count = 0
 
-dx = [0, 0, -1, 1]
-dy = [1, -1, 0, 0]
+N, M = map(int, input().split())
 
 for _ in range(N):
-    graph.append(list(map(int, input())))
+    a = list(map(int, input().split()))
+    graph.append(a)
 
-
-def dfs(x, y):
-    global count
-
-    if x >= N or y >= N or x < 0 or y < 0:
-        return
-
-    if graph[x][y] == 1:
-        count += 1
-        graph[x][y] = 0
-
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-
-            dfs(nx, ny)
-
-
-for i in range(N):
-    for j in range(N):
-        if graph[i][j] == 1:
-            dfs(i, j)
-            result.append(count)
-            count = 0
-
-result.sort()
-
-print(len(result))
-for k in result:
-    print(k)
+print(graph)
