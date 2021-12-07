@@ -35,7 +35,7 @@ def bfs(startx, destx):  # 시작점 , 목적지 좌표
 
 graph = [0] * 100001  # 그래프 최대크기로 초기화
 visited = [-1] * 100001  # 전에 방문했던 위치를 남길 visited선언
-path = []  # 방문 기록을 닮을 리스트 선언
+path = []  # 방문 기록을 담을 리스트 선언
 dx = [-1, 1, 2]  # 한번에 이동 할 수 있는 좌표 설정
 
 N, K = map(int, input().split())
