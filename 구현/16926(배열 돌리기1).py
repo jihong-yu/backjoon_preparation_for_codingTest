@@ -1,5 +1,3 @@
-from collections import deque
-
 N, M, R = map(int, input().split())
 
 array = [list(map(int, input().split())) for _ in range(N)]
@@ -9,7 +7,7 @@ for order in range(R):
     left = 0
     right = M
     bottom = 0
-    queue = deque()
+
     for _ in range(min(N, M) // 2):
         temp = 0  # 대입되어질 자리의 수를 저장해놓는 변수1
         temp2 = 0  # 대입되어질 자리의 수를 저장해놓는 변수2
@@ -22,7 +20,6 @@ for order in range(R):
             else:  # 0이라면 음이므로
                 temp = array[bottom][t - 1]  # temp값에 대입되어질 수를 저장해놓는다.
                 array[bottom][t - 1] = array[bottom][t]  # 그 자리에 대입한다.
-
 
         # left (왼쪽줄 처리)
         for l in range(bottom, top - 1):
